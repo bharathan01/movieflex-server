@@ -9,7 +9,7 @@ routes.get('/movies', (req,res) => {
      methodes.getMovieDetails().then(result =>{
         res.status(result.statusCode).json(result)
         
-     }).catch(error => res.status('somthing went wrong..').json(error))
+     }).catch(error => res.status(400).json(error))
 
     
 })
@@ -19,6 +19,16 @@ routes.get('/singlemovie/:_id',(req,res) =>{
    }).catch(error => res.status(400).json(error))
    })
 
-
-module.exports = routes 
-  
+routes.post('/register' ,(req,res) => {
+   methodes.registerUser(req.body).then(data =>{
+      res.status(200).json(data)
+   }).catch(error => res.status(400).json(error)) 
+})
+routes.post('/login', (req,res) =>{
+   methodes.logInUser(req.body).then(data => {
+      res.status(200).json(data)
+      // console.log(data) 
+   }).catch(error => res.status(400).json(error))
+})    
+module.exports = routes  
+    

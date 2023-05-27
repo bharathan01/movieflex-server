@@ -6,4 +6,5 @@ const moviedata = mongoose.model('moviedata',{
   releasedate:{type:Date},  
 },'moviedatas')
 
+
 module.exports = moviedata
