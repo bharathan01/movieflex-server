@@ -27,7 +27,6 @@ routes.post('/register' ,(req,res) => {
 routes.post('/login', (req,res) =>{
    methodes.logInUser(req.body).then(data => {
       res.status(200).json(data)
-      // console.log(data) 
    }).catch(error => res.status(400).json(error))
 })    
 module.exports = routes  

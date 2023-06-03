@@ -2,7 +2,10 @@ const movieDataModel = require("../data-models/moviedatamodel.js")
 const registerModel = require('../data-models/register.js')
 const bcrypt = require('bcrypt')
 const jwsToken = require('jsonwebtoken')
+const dotenv = require('dotenv')
 
+dotenv.config()
+priveat_key = process.env.PRIVEAT_KEY
 
 getMovieDetails = () => {
    return movieDataModel.find().then(data => {
@@ -62,66 +65,36 @@ registerUser = (userDetails) => {
 }
 
 logInUser = async (userData) => {
-   const email = userData.email
-
-   const data = await registerModel.findOne({ email: userData.email })
-   if (email == userData.email) {
+   
+   const data = await registerModel.findOne({ email:userData.email })
+   if (data.email == userData.email) {
+      loginEmail = data.email
       const pass = await bcrypt.compare(userData.password, data.password)
       if (pass) {
-         
-
+         token = jwsToken.sign({loginEmail},priveat_key)
+        
          return{
-            message: 'LOGIN SUCCESS'
+            statusCode:200,
+            message: 'LOGIN SUCCESS',
+            email:data.email,
+            name:data.username,
+            token
+            
          }
       }
       else {
          return {
+            statusCode:400,
             message: 'password is invalid..'
          }
       }
    }
    else {
       return {
+         statusCode:400,
          message: 'invalid email..'
       }
    }
-
-   //   return  registerModel.findOne({email:userData.email}).then(data =>{
-   //       if(data){
-   //          if(email == data.email){
-   //               hash = bcrypt.compare(userData.password,data.password ,   pass =  (err ,result) =>  {
-   //               return result
-   //            } )
-   //             console.log(pass);
-   //             if(hash){
-   //                loginUserData = {
-   //                   username:data.username,
-   //                   email:data.email
-   //                }
-
-   //                return{
-   //                   loginUserData,
-   //                   message:'login Successfull...'
-   //                } 
-   //             } 
-   //             else{
-   //                return{
-   //                   message:'enterd password is incorrect..'
-   //                }
-   //             }
-   //          }
-   //          else{
-   //             return{
-   //                message:'Enter correct email'
-   //             }
-   //          }
-   //       }
-   //       else{
-   //          return{
-   //             message:'Somethig Went Wrong ! please try again leater..'
-   //          }
-   //       }
-   //    })
 }
 module.exports = {
    getMovieDetails, getSingleMovieDetails, registerUser, logInUser
