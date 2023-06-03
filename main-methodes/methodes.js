@@ -3,6 +3,7 @@ const registerModel = require('../data-models/register.js')
 const bcrypt = require('bcrypt')
 const jwsToken = require('jsonwebtoken')
 const dotenv = require('dotenv')
+const reviewModel = require('../data-models/moviereview.js')
 
 dotenv.config()
 priveat_key = process.env.PRIVEAT_KEY
@@ -96,6 +97,44 @@ logInUser = async (userData) => {
       }
    }
 }
+
+uploadReview = async(data) =>{
+   const result = await reviewModel.create(data)
+   console.log(result)
+   if(result){
+
+      return{
+         statusCode:200,
+         message:'uploded successfully'
+      }
+
+   }
+   else{
+      return{
+         message:'somthing went wrong...'
+      }
+   }
+
+}
+getReviewData = async()=>{
+   const data  = await reviewModel.find()
+   if(data){
+      console.log(data)
+      return{
+         data
+      }
+   }
+   else{
+      return{
+         message:'somthing went wrog...'
+      }
+   }
+}
 module.exports = {
-   getMovieDetails, getSingleMovieDetails, registerUser, logInUser
+   getMovieDetails, 
+   getSingleMovieDetails,
+    registerUser,
+     logInUser,
+     uploadReview,
+     getReviewData
 }

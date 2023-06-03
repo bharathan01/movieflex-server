@@ -1,6 +1,7 @@
 const express = require('express')
 const movieDataModel = require("../data-models/moviedatamodel.js")
 const methodes = require("../main-methodes/methodes.js")
+const jwtAuth = require('../midddleware/jwtAuth.js')
 
 const routes = express.Router()
 
@@ -28,6 +29,16 @@ routes.post('/login', (req,res) =>{
    methodes.logInUser(req.body).then(data => {
       res.status(200).json(data)
    }).catch(error => res.status(400).json(error))
-})    
+})
+routes.post('/addPost',jwtAuth,(req,res) =>{
+    methodes.uploadReview(req.body).then(data =>{
+      res.status(200).json(data)
+    }).catch(error => res.status(400).json(error))
+})  
+routes.get('/getreview',(req,res) =>{
+   methodes.getReviewData().then(data =>{
+      res.status(200).json(data)
+   }).catch(error => res.status(400).json(error))
+})  
 module.exports = routes  
     
