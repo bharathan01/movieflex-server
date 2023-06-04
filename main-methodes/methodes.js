@@ -119,7 +119,6 @@ uploadReview = async(data) =>{
 getReviewData = async()=>{
    const data  = await reviewModel.find()
    if(data){
-      console.log(data)
       return{
          data
       }
@@ -130,11 +129,61 @@ getReviewData = async()=>{
       }
    }
 }
+deleteReview =(_id) => {
+  return reviewModel.deleteOne({_id}).then(data =>{
+   if(data){
+     return{
+      statusCode:200,
+      message:'Review deleted successfully..'
+     }
+   }
+   else{
+      return{
+         statusCode:400,
+         message:'somthing went wrong..plase try after some time'
+      }
+   }
+   })
+}
+getReview = async(_id) =>{
+   data = await reviewModel.findById({_id})
+   if(data){
+      return {
+         data,
+         statusCode:200
+      }
+   }
+   else{
+      return{
+         statusCode:400
+      }
+   }
+
+}
+/*updatedata = async(_id,data) =>{
+   data = await registerModel.findByIdAndUpdate(_id,{reviewheading:data.reviewheading})
+   if(data){
+      return{
+         statusCode:200,
+         message:'updated successfully',
+         data
+      }
+   }
+   else{
+      return{
+         statusCode:400,
+         message:'something went wrong plase try after some time'
+      }
+   }
+
+}*/
 module.exports = {
    getMovieDetails, 
    getSingleMovieDetails,
     registerUser,
      logInUser,
      uploadReview,
-     getReviewData
+     getReviewData,
+     deleteReview,
+     getReview
 }

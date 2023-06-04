@@ -7,7 +7,6 @@ priveat_key = process.env.PRIVEAT_KEY
 const jwtTokenVerify = (req,res,next) =>{
  try{
     const token = req.headers['access_key']
-    console.log(token)
     const verfiedToken = jwt.verify(token,priveat_key)
     next()
 
