@@ -18,7 +18,7 @@ getMovieDetails = () => {
 }
 getSingleMovieDetails = (movieId) => {
 
-   return movieDataModel.findById(movieId).then(data => {
+   return movieDataModel.findById(movieId).then(data => { 
       if (data) {
          return {
             data,
@@ -100,9 +100,7 @@ logInUser = async (userData) => {
 
 uploadReview = async(data) =>{
    const result = await reviewModel.create(data)
-   console.log(result)
    if(result){
-
       return{
          statusCode:200,
          message:'uploded successfully'
